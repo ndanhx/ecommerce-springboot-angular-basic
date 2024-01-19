@@ -1,0 +1,75 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>Give Review</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="reviewForm" (ngSubmit)="submitForm()">
+        <div class="file-upload-container">
+          <label class="file-upload-label"
+            ><a mat-raised-button color="secondary">
+              Select a file <mat-icon>attach_file</mat-icon>
+            </a>
+            <input
+              type="file"
+              id="fileInput"
+              (change)="onFileSelectd($event)"
+              hidden
+            />
+          </label>
+
+          <div *ngIf="selectedFile" class="image-preview">
+            <div class="circle-image">
+              <img
+                style="width: 70px"
+                [src]="imagePreview"
+                alt="selected image"
+                class="preview-image"
+              />
+            </div>
+          </div>
+        </div>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Rating</mat-label>
+          <mat-select formControlName="rating" name="rating">
+            <mat-option value="1">1<mat-icon>star</mat-icon></mat-option>
+            <mat-option value="2">2<mat-icon>star</mat-icon> </mat-option>
+            <mat-option value="3">3<mat-icon>star</mat-icon> </mat-option>
+            <mat-option value="4">4<mat-icon>star</mat-icon> </mat-option>
+            <mat-option value="5">5<mat-icon>star</mat-icon> </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              reviewForm.get('rating').invalid &&
+              reviewForm.get('rating').touched
+            "
+          >
+            Please select rating !
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            type="text"
+            name="description"
+            autocomplete="on"
+            formControlName="description"
+            placeholder="Description"
+            required
+          ></textarea>
+          <mat-error
+            *ngIf="
+              reviewForm.get('description').invalid &&
+              reviewForm.get('description').touched
+            "
+          >
+            This input is required
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Post</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

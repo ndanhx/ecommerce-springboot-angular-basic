@@ -1,0 +1,79 @@
+<div *ngIf="cartItems.length > 0">
+  <div class="cart-containner">
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <div class="product-info">
+        <div class="product-image">
+          <img [src]="item.processedImg" alt="product-img" />
+        </div>
+        <div class="product-detail">
+          <div class="item-row">
+            <div
+              class="item-name"
+              [ngClass]="{ hightlight: item.hightlighted }"
+            >
+              {{ item.productName }}
+            </div>
+            <div class="item-price">{{ item.price | currency }}</div>
+
+            <div class="quantity-controls">
+              <button
+                mat-icon-button
+                [disabled]="item.quantity == 1"
+                (click)="decreaseProductQuantity(item.productId)"
+              >
+                <mat-icon class="icon">remove_circle_outline</mat-icon>
+              </button>
+              <span class="quantity" style="font-size: 18px">{{
+                item.quantity
+              }}</span>
+
+              <button
+                mat-icon-button
+                (click)="increaseProductQuantity(item.productId)"
+              >
+                <mat-icon class="icon">add_circle_outline</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container" *ngIf="order.couponName == null">
+      <form [formGroup]="couponForm" (ngSubmit)="applyCoupon()">
+        <mat-form-field>
+          <mat-label>Code</mat-label>
+          <input type="text" matInput formControlName="code" />
+          <mat-error *ngIf="couponForm.get('code').hasError('required')">
+            This input is required
+          </mat-error>
+          <button mat-raised-button color="primary">Apply Coupon</button>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div>
+      <div class="price">
+        <div class="total-price">
+          Total amount: {{ order.totalAmount | currency }}
+        </div>
+        <div class="total-price">Amount: {{ order.amount | currency }}</div>
+        <div class="total-price" *ngIf="order.couponName != null">
+          Coupon applied:
+          <i style="color: rgb(34, 36, 33)"
+            >{{ order.couponName }}(-{{ order.discount | currency }})</i
+          >
+        </div>
+      </div>
+      <button mat-raised-button color="primary" (click)="placeOrder()">
+        Place Order
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyCart>
+  <div class="empty-cart">
+    <mat-icon class="icon">remove_shopping_cart</mat-icon>
+    <span>Noting to see here</span>
+  </div>
+</ng-template>

@@ -1,0 +1,107 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>Update Product</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="productForm" (ngSubmit)="updateProduct()">
+        <div class="file-upload-container">
+          <label class="file-upload-label"
+            ><a mat-raised-button color="secondary">
+              Select a file <mat-icon>attach_file</mat-icon>
+            </a>
+            <input
+              type="file"
+              id="fileInput"
+              (change)="onFileSelectd($event)"
+              hidden
+            />
+          </label>
+
+          <div *ngIf="!selectedFile" class="product-image-container">
+            <img
+              mat-card-image
+              style="width: 150px"
+              [src]="oldImgae"
+              alt="img"
+            />
+          </div>
+
+          <div *ngIf="selectedFile" class="image-preview">
+            <div class="circle-image">
+              <img
+                style="width: 150px"
+                [src]="imagePreview"
+                alt="selected image"
+                class="preview-image"
+              />
+            </div>
+          </div>
+        </div>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Select a Category</mat-label>
+          <mat-select formControlName="categoryId" name="categoryId">
+            <mat-option
+              *ngFor="let category of listCategories"
+              [value]="category.id"
+            >
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="productForm.get('categoryId').hasError('required')">
+            This input is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="name"
+            formControlName="name"
+            placeholder="Name"
+            required
+          />
+          <mat-error *ngIf="productForm.get('name').hasError('required')">
+            This input is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Price</mat-label>
+          <input
+            matInput
+            type="number"
+            name="price"
+            formControlName="price"
+            placeholder="Price"
+            required
+          />
+          <mat-error *ngIf="productForm.get('price').hasError('required')">
+            This input is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            name="description"
+            formControlName="description"
+            placeholder="Description"
+            required
+          ></textarea>
+          <mat-error
+            *ngIf="productForm.get('description').hasError('required')"
+          >
+            This input is required
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">
+          Update Product
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

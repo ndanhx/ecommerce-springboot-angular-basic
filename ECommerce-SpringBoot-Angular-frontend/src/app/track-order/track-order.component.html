@@ -1,0 +1,73 @@
+<form [formGroup]="searchOrderForm" class="search-form" (submit)="submitForm()">
+  <mat-form-field appearance="outline" class="search-input">
+    <mat-label>Enter tracking ID to search</mat-label>
+    <input matInput formControlName="trackingId" type="text" />
+    <button
+      mat-button
+      matSuffix
+      color="primary"
+      [disabled]="searchOrderForm.invalid"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</form>
+
+<div class="product-grid" *ngIf="order">
+  <mat-card class="tracking-card">
+    <mat-card-header>
+      <mat-card-title>Order Details</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <div class="tracking-info">
+        <div class="info-item">
+          <span class="info-label">Tracking ID:</span>
+          <i
+            ><span style="color: rgb(8, 124, 12)">{{
+              order.trackingId
+            }}</span></i
+          >
+        </div>
+        <mat-divider></mat-divider>
+        <div class="info-item">
+          <span class="info-label">Order Status:</span>
+          <span>{{ order.orderStatus }}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="info-item">
+          <span class="info-label">Date:</span>
+          <span>{{ order.date | date : "dd/MM/yyyy HH:mm" }}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="info-item">
+          <span class="info-label">Amount:</span>
+          <span style="color: rgb(8, 124, 12)">{{
+            order.amount | currency
+          }}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="info-item">
+          <span class="info-label">Address:</span>
+          <span>{{ order.address }}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="info-item">
+          <span class="info-label">Coupon Name:</span>
+          <span>{{ order.couponName }}</span>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="product-grid" *ngIf="orderChecked">
+  <mat-card class="tracking-card"
+    ><span
+      style="display: flex; align-self: center; color: red; font-size: 20px"
+      >Not found</span
+    ></mat-card
+  >
+</div>

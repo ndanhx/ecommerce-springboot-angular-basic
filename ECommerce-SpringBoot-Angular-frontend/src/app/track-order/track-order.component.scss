@@ -1,0 +1,29 @@
+.search-form {
+  text-align: center;
+  margin: 16px;
+}
+/* Add this to your component's CSS file or global styles file */
+
+.tracking-card {
+  margin: 20px auto; /* Center the container */
+  padding: 20px;
+  max-width: 450px; /* Adjust the maximum width according to your design */
+  border: 1px solid #ddd;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tracking-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item {
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.info-label {
+  font-weight: bold;
+  margin-right: 10px;
+}

@@ -1,0 +1,175 @@
+/* Add these styles to your component's CSS file or global styles file */
+
+.cart-containner {
+  margin: 20px auto; /* Center the container */
+  padding: 20px;
+  max-width: 800px; /* Adjust the maximum width according to your design */
+  border: 1px solid #ddd;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+}
+
+.product-image img {
+  max-width: 300px; /* Adjust the size according to your design */
+  max-height: 300px; /* Adjust the size according to your design */
+  margin-right: 15px;
+}
+
+.product-detail {
+  flex-grow: 1;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-name {
+  font-weight: bold;
+  font-size: 25px; /* Adjust the font size according to your design */
+}
+
+.item-price {
+  margin-left: 10px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.quantity {
+  margin: 0 10px;
+}
+
+.total-price {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.empty-cart {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 20px;
+  color: #000000;
+}
+
+.empty-cart .icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+.price {
+  text-align-last: right;
+  color: red;
+}
+
+button {
+  margin-top: 10px;
+}
+
+//input
+
+mat-card {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+
+  @media screen and (max-width: 500px) {
+    max-width: 90%;
+  }
+}
+
+mat-card-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+button {
+  width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+  mat-card-title {
+    font-size: 20px;
+  }
+
+  mat-form-field {
+    margin-bottom: 10px;
+  }
+}
+
+.error-snackbar {
+  background-color: #f44336 !important;
+}
+
+.item {
+  margin: 10px;
+}
+
+.review-item {
+  border-bottom: 1px solid #ddd;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info img {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.rating mat-icon {
+  color: #ffd700; /* Adjust the star color as needed */
+  font-size: 20px;
+  margin-right: 2px;
+}
+.img-review {
+  max-width: 150px; /* Adjust the size according to your design */
+  max-height: 100px; /* Adjust the size according to your design */
+  margin-right: 15px;
+}
+
+.price-item {
+}

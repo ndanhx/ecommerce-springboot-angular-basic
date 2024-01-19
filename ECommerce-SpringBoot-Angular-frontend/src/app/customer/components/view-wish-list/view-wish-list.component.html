@@ -1,0 +1,25 @@
+<div class="cart-containner">
+  <ng-container *ngIf="products && products.length > 0; else noProduct">
+    <div class="cart-item" *ngFor="let product of products">
+      <div class="product-info">
+        <div class="product-image">
+          <img [src]="product.processedImg" alt="product-img" />
+        </div>
+        <div class="product-detail">
+          <div class="item-row">
+            <div class="item-name">
+              {{ product.productName }}
+            </div>
+            <div class="item-price">
+              <b>{{ product.price | currency }}</b>
+            </div>
+          </div>
+          <div><b>Description:</b> {{ product.productDescription }}</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noProduct>
+    <div class="no-product-message">Wish List is Empty</div>
+  </ng-template>
+</div>

@@ -1,0 +1,33 @@
+<div>
+  <div class="cart-containner">
+    <div class="cart-item" *ngFor="let product of orderedProductsDetailsList">
+      <div class="product-info">
+        <div class="product-image">
+          <img [src]="product.processedImg" alt="product-img" />
+        </div>
+
+        <div class="item-row">
+          <div class="item-detail">
+            <div class="item-name">Name: {{ product.name }}</div>
+            <div class="item-price">Price: {{ product.price | currency }}</div>
+            <div class="quantity-controls">
+              Quantity: {{ product.quantity }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          routerLink="/customer/review/{{ product.id }}"
+        >
+          Give Review
+        </button>
+      </div>
+    </div>
+    <div class="price">
+      <div class="total-price">Amount: {{ totalAmount | currency }}</div>
+    </div>
+  </div>
+</div>
