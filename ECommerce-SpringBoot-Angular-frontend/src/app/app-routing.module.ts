@@ -6,6 +6,8 @@ import { TrackOrderComponent } from './track-order/track-order.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'tracking-order', pathMatch: 'full' },
+
   { path: 'register', component: SignupComponent },
   {
     path: 'admin',

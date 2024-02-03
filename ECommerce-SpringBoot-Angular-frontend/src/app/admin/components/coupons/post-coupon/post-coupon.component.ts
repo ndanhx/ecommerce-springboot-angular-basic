@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AdminService } from '../../services/admin.service';
+import { AdminService } from '../../../services/admin.service';
 
 @Component({
   selector: 'app-post-coupon',

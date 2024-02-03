@@ -19,11 +19,23 @@ export class DashboardComponent implements OnInit {
 
   products: any[] = [];
   searchProductForm: FormGroup;
+  listCategories: any = [];
+  searchProductFormByCategory: FormGroup;
 
   ngOnInit(): void {
     this.getAllProducts();
     this.searchProductForm = this.fb.group({
       title: [null, [Validators.required]],
+    });
+    this.searchProductFormByCategory = this.fb.group({
+      categoryId: [null, [Validators.required]],
+    });
+    this.getAllCategories();
+  }
+
+  getAllCategories() {
+    this.adminService.getAllCategories().subscribe((res) => {
+      this.listCategories = res;
     });
   }
 
@@ -48,21 +60,31 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteProduct(productId: any) {
-    alert(`Don't use this feature !!!`);
+    this.adminService.deleteProduct(productId).subscribe(
+      (res) => {
+        this.snackbar.open('Product Deleted Successfully', 'Close', {
+          duration: 5000,
+        });
+        this.products = [];
+        this.getAllProducts();
+      },
+      (eror) => {
+        this.snackbar.open('This product was choosen by customer', 'Close', {
+          duration: 5000,
+        });
+      }
+    );
+  }
 
-    // this.adminService.deleteProduct(productId).subscribe((res) => {
-    //   if (res == null) {
-    //     this.snackbar.open('Product Deleted Successfully', 'Close', {
-    //       duration: 5000,
-    //     });
-    //     this.products = [];
-    //     this.getAllProducts();
-    //   } else {
-    //     this.snackbar.open('Product not found', 'Close', {
-    //       duration: 5000,
-    //       panelClass: 'error-snackbar',
-    //     });
-    //   }
-    // });
+  getProductByCategory(categoryId) {
+    this.products = [];
+    this.adminService
+      .getAllProductsByCategoryId(categoryId)
+      .subscribe((res) => {
+        res.forEach((element) => {
+          element.processedImg = 'data:image/jpeg;base64,' + element.byteImg;
+          this.products.push(element);
+        });
+      });
   }
 }

@@ -28,10 +28,9 @@ public class Product {
     private byte[] img;
 
 
-    @ManyToOne(fetch = FetchType.EAGER  ,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-
 
 
     public ProductDto getDto() {

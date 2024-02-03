@@ -42,6 +42,13 @@ public class CustomerProductServiceImpl implements CustomerProductService{
     }
 
     @Override
+    public List<ProductDto> getAllProductByCategoryId(Long categoryId) {
+        List<Product> products = productRepository.findAllByCategoryId(categoryId);
+        return products.stream().map(Product::getDto ).collect(Collectors.toList());
+
+    }
+
+    @Override
     public ProductDetailDto getProductDetailById(Long productId) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isPresent()) {
@@ -56,7 +63,7 @@ public class CustomerProductServiceImpl implements CustomerProductService{
             productDetailDto.setReviewDtoList(reviewList.stream()
                     .map(Review::getReviewDto)
                     .collect(Collectors.toList()));
-            System.out.println(productId);
+            
             return productDetailDto;
         }
         return null;

@@ -1,8 +1,8 @@
 <div class="container">
   <mat-card>
-    <mat-card-title>Add Category</mat-card-title>
+    <mat-card-title>Update Category</mat-card-title>
     <mat-card-content>
-      <form [formGroup]="categoryForm" (ngSubmit)="addCategory()">
+      <form [formGroup]="categoryForm">
         <mat-form-field appearance="outline" class="form-field">
           <mat-label>Name</mat-label>
           <input
@@ -35,9 +35,28 @@
           </mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit">
-          Add Category
-        </button>
+        <div class="button-container">
+          <div class="btn-order">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="full-width"
+              (click)="updateCategory()"
+            >
+              Update
+            </button>
+          </div>
+
+          <button
+            mat-raised-button
+            color="warn"
+            class="full-width"
+            (click)="closeForm()"
+          >
+            Close
+          </button>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>

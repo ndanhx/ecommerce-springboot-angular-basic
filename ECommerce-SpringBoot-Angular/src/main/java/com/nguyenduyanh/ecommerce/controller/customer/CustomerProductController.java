@@ -29,10 +29,21 @@ public class CustomerProductController {
         List<ProductDto> productDtos = customerProductService.getAllProductByName(name);
         return ResponseEntity.ok(productDtos);
     }
+
+    @GetMapping("/products/category/{categoryId}")
+    public ResponseEntity<List<ProductDto>> getAllProductsByName(@PathVariable Long categoryId) {
+        List<ProductDto> productDtos = customerProductService.getAllProductByCategoryId(categoryId);
+        if (productDtos == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(productDtos);
+    }
+
     @GetMapping("/product/{productId}")
     public ResponseEntity<ProductDetailDto> getProductDetailById(@PathVariable Long productId) {
         ProductDetailDto productDetailDto = customerProductService.getProductDetailById(productId);
-        if (productDetailDto==null) return ResponseEntity.notFound().build();
+        if (productDetailDto == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(productDetailDto);
     }
 

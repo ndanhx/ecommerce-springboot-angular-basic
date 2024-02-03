@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AdminService } from '../../services/admin.service';
+import { AdminService } from '../../../services/admin.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-post-category',
@@ -14,7 +15,8 @@ export class PostCategoryComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private snackbar: MatSnackBar,
-    private adminService: AdminService
+    private adminService: AdminService,
+    public dialog: MatDialog
   ) {}
   categoryForm!: FormGroup;
   ngOnInit(): void {
@@ -33,17 +35,21 @@ export class PostCategoryComponent implements OnInit {
             this.snackbar.open('Category Posted Successfully', 'Close', {
               duration: 5000,
             });
-            this.router.navigateByUrl('admin/dashboard');
+            this.router.navigateByUrl('admin/category');
+            this.dialog.closeAll();
           } else {
             this.snackbar.open('Category Post Failed', 'Close', {
               duration: 5000,
               panelClass: 'error-snackbar',
             });
-            this.router.navigateByUrl('admin/dashboard');
           }
         });
     } else {
       this.categoryForm.markAllAsTouched();
     }
+  }
+
+  closeForm() {
+    this.dialog.closeAll();
   }
 }

@@ -1,5 +1,6 @@
 package com.nguyenduyanh.ecommerce.entity;
 
+import com.nguyenduyanh.ecommerce.dto.CategoryDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,5 +18,11 @@ public class Category {
     private String description;
 
 
-
+    public CategoryDto getDto() {
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(id);
+        categoryDto.setName(name);
+        categoryDto.setDescription(description);
+        return categoryDto;
+    }
 }

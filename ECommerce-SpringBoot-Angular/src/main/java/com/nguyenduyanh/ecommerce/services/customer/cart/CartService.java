@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface CartService {
 
 
-    ResponseEntity<?> addProductToCart(AddProductInCartDto addProductInCartDto);
+    boolean addProductToCart(AddProductInCartDto addProductInCartDto);
 
     OrderDto getCartByUserId(Long userId);
 
@@ -27,6 +27,10 @@ public interface CartService {
     List<OrderDto> getMyPlacedOrders(Long userId);
 
     OrderDto searchOrderByTrackingId(UUID trackingId);
+
+    OrderDto removeProductInCart(Long userId, Long productId);
+
+
 
 
 

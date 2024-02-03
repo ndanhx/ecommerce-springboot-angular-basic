@@ -1,13 +1,14 @@
 package com.nguyenduyanh.ecommerce.services.customer.cart;
 
-import com.nguyenduyanh.ecommerce.dto.*;
+import com.nguyenduyanh.ecommerce.dto.AddProductInCartDto;
+import com.nguyenduyanh.ecommerce.dto.CartItemsDto;
+import com.nguyenduyanh.ecommerce.dto.OrderDto;
+import com.nguyenduyanh.ecommerce.dto.PlaceOrderDto;
 import com.nguyenduyanh.ecommerce.emuns.OrderStatus;
 import com.nguyenduyanh.ecommerce.entity.*;
 import com.nguyenduyanh.ecommerce.exeptions.ValidationException;
 import com.nguyenduyanh.ecommerce.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -31,15 +32,30 @@ public class CartServiceImpl implements CartService {
     private CouponRepository couponRepository;
 
     @Override
-    public ResponseEntity<?> addProductToCart(AddProductInCartDto addProductInCartDto) {
+    public boolean addProductToCart(AddProductInCartDto addProductInCartDto) {
         Order activeOrder = orderRepository.findByUserIdAndOrderStatus(addProductInCartDto.getUserId(), OrderStatus.Pending);
+        Optional<Product> optionalProduct = productRepository.findById(addProductInCartDto.getProductId());
+        Optional<User> optionalUser = userRepository.findById(addProductInCartDto.getUserId());
         Optional<CartItems> optionalCartItems = cartItemsRepository.
                 findByProductIdAndOrderIdAndUserId(addProductInCartDto.getProductId(), activeOrder.getId(), addProductInCartDto.getUserId());
         if (optionalCartItems.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            CartItems cartItems = optionalCartItems.get();
+            Product product = optionalProduct.get();
+            activeOrder.setAmount(activeOrder.getAmount() + product.getPrice());
+            activeOrder.setTotalAmount(activeOrder.getTotalAmount() + product.getPrice());
+            cartItems.setQuantity(cartItems.getQuantity() + 1);
+            if (activeOrder.getCoupon() != null) {
+                double discountAmount = ((activeOrder.getCoupon().getDiscount() / 100.0) * activeOrder.getTotalAmount());
+                double netAmount = activeOrder.getTotalAmount() - discountAmount;
+
+                activeOrder.setAmount((long) netAmount);
+                activeOrder.setDiscount((long) discountAmount);
+
+            }
+            cartItemsRepository.save(cartItems);
+            orderRepository.save(activeOrder);
+            return true;
         } else {
-            Optional<Product> optionalProduct = productRepository.findById(addProductInCartDto.getProductId());
-            Optional<User> optionalUser = userRepository.findById(addProductInCartDto.getUserId());
             if (optionalProduct.isPresent() && optionalUser.isPresent()) {
                 CartItems cartItems = new CartItems();
                 cartItems.setProduct(optionalProduct.get());
@@ -54,9 +70,9 @@ public class CartServiceImpl implements CartService {
                 activeOrder.setAmount(activeOrder.getAmount() + cartItems.getPrice());
                 activeOrder.getCartItems().add(cartItems);
                 orderRepository.save(activeOrder);
-                return ResponseEntity.status(HttpStatus.CREATED).body(cartItems);
+                return true;
             } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("User or Product not found");
+                return false;
             }
         }
     }
@@ -143,6 +159,7 @@ public class CartServiceImpl implements CartService {
             Product product = optionalProduct.get();
             activeOrder.setAmount(activeOrder.getAmount() - product.getPrice());
             activeOrder.setTotalAmount(activeOrder.getTotalAmount() - product.getPrice());
+            activeOrder.getCartItems().remove(cartItems);
             cartItems.setQuantity(cartItems.getQuantity() - 1);
             if (activeOrder.getCoupon() != null) {
                 double discountAmount = ((activeOrder.getCoupon().getDiscount() / 100.0) * activeOrder.getTotalAmount());
@@ -163,7 +180,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public OrderDto placeOrder(PlaceOrderDto placeOrderDto) {
         Order activeOrder = orderRepository.findByUserIdAndOrderStatus(placeOrderDto.getUserId(), OrderStatus.Pending);
-        Optional<User > optionalUser = userRepository.findById(placeOrderDto.getUserId());
+        Optional<User> optionalUser = userRepository.findById(placeOrderDto.getUserId());
         if (optionalUser.isPresent()) {
             activeOrder.setOrderDescription(placeOrderDto.getOrderDescription());
             activeOrder.setAddress(placeOrderDto.getAddress());
@@ -200,7 +217,39 @@ public class CartServiceImpl implements CartService {
         if (optionalOrder.isPresent()) {
             return optionalOrder.get().getOrderDto();
         }
-            return null;
+        return null;
+    }
+
+    @Override
+    public OrderDto removeProductInCart(Long userId, Long productId) {
+        Order activeOrder = orderRepository.findByUserIdAndOrderStatus(userId, OrderStatus.Pending);
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        Optional<CartItems> optionalCartItems = cartItemsRepository.findByProductIdAndOrderIdAndUserId(
+                productId, activeOrder.getId(),userId
+        );
+        if (optionalProduct.isPresent() && optionalCartItems.isPresent()) {
+            CartItems cartItems = optionalCartItems.get();
+            long priceOfProductRemove = cartItems.getPrice() * cartItems.getQuantity();
+
+            activeOrder.setAmount(activeOrder.getAmount() - priceOfProductRemove);
+            activeOrder.setTotalAmount(activeOrder.getTotalAmount() - priceOfProductRemove);
+
+
+
+            if (activeOrder.getCoupon() != null) {
+                double discountAmount = ((activeOrder.getCoupon().getDiscount() / 100.0) * activeOrder.getTotalAmount());
+                double netAmount = activeOrder.getTotalAmount() - discountAmount;
+
+                activeOrder.setAmount((long) netAmount);
+                activeOrder.setDiscount((long) discountAmount);
+
+            }
+            cartItemsRepository.deleteById(cartItems.getId());
+            orderRepository.save(activeOrder);
+            return activeOrder.getOrderDto();
+
+        }
+        return null;
     }
 
     private boolean couponIsExpired(Coupon coupon) {

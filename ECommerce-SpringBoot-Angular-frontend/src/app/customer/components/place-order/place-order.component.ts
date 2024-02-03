@@ -35,6 +35,7 @@ export class PlaceOrderComponent implements OnInit {
             duration: 5000,
           });
           this.router.navigateByUrl('/customer/orders');
+          this.dialog.closeAll();
         }
       },
       (error) => {

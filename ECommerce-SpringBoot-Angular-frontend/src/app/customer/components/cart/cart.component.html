@@ -1,4 +1,4 @@
-<div *ngIf="cartItems.length > 0">
+<div *ngIf="cartItems.length > 0; else emptyCart">
   <div class="cart-containner">
     <div class="cart-item" *ngFor="let item of cartItems">
       <div class="product-info">
@@ -34,6 +34,12 @@
                 <mat-icon class="icon">add_circle_outline</mat-icon>
               </button>
             </div>
+            <button
+              mat-icon-button
+              (click)="removeProductInCart(item.productId)"
+            >
+              <mat-icon style="color: red" class="icon">delete</mat-icon>
+            </button>
           </div>
         </div>
       </div>
@@ -72,8 +78,8 @@
 </div>
 
 <ng-template #emptyCart>
-  <div class="empty-cart">
-    <mat-icon class="icon">remove_shopping_cart</mat-icon>
-    <span>Noting to see here</span>
+  <div class="empty-cart" style="color: red">
+    <mat-icon>shopping_cart</mat-icon>
+    <span style="padding: 5px">Noting to see here</span>
   </div>
 </ng-template>

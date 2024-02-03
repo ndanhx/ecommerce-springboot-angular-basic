@@ -1,8 +1,11 @@
+/* Add these styles to your component's CSS file or global styles file */
+
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 70vh;
+  width: 400px;
 }
 
 mat-card {
@@ -27,13 +30,18 @@ form {
   align-items: center;
 }
 
-mat-form-field {
+.mat-form-field {
   width: 100%;
   margin-bottom: 20px;
 }
 
-button {
-  width: 100%;
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px; /* Adjust the margin as needed */
+}
+.btn-order {
+  padding-right: 12px;
 }
 
 @media screen and (max-width: 500px) {
@@ -41,8 +49,12 @@ button {
     font-size: 20px;
   }
 
-  mat-form-field {
+  .mat-form-field {
     margin-bottom: 10px;
+  }
+
+  .button-container {
+    flex-direction: column;
   }
 }
 

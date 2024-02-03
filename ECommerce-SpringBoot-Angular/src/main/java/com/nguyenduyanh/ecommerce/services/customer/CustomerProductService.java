@@ -2,6 +2,7 @@ package com.nguyenduyanh.ecommerce.services.customer;
 
 import com.nguyenduyanh.ecommerce.dto.ProductDetailDto;
 import com.nguyenduyanh.ecommerce.dto.ProductDto;
+import com.nguyenduyanh.ecommerce.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,10 @@ public interface CustomerProductService {
 
     List<ProductDto> getAllProductByName(String title);
 
+    List<ProductDto> getAllProductByCategoryId(Long categoryId);
+
+
     ProductDetailDto getProductDetailById(Long productId);
+
 
 }

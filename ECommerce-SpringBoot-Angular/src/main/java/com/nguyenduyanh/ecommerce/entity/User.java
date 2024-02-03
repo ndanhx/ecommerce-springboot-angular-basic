@@ -1,5 +1,6 @@
 package com.nguyenduyanh.ecommerce.entity;
 
+import com.nguyenduyanh.ecommerce.dto.UserDto;
 import com.nguyenduyanh.ecommerce.emuns.UserRole;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -28,4 +29,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;
+
+    public UserDto getUserDto(){
+        UserDto userDto = new UserDto();
+        userDto.setId(id);
+        userDto.setName(name);
+        userDto.setRole(role);
+        userDto.setEmail(email);
+        return userDto;
+    }
 }

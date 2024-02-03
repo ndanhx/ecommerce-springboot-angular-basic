@@ -22,10 +22,12 @@ public class CustomerCartController {
 
 
     @PostMapping("/cart")
-    public ResponseEntity<?> addProductToCart(@RequestBody AddProductInCartDto addProductInCartDto){
-        return cartService.addProductToCart(addProductInCartDto);
-
-
+    public ResponseEntity<Void> addProductToCart(@RequestBody AddProductInCartDto addProductInCartDto){
+        boolean added =  cartService.addProductToCart(addProductInCartDto);
+        if (added) {
+           return  ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/cart/{userId}")
@@ -66,6 +68,9 @@ public class CustomerCartController {
          return ResponseEntity.ok(cartService.getMyPlacedOrders(userId));
     }
 
-
+    @DeleteMapping("/cart/{userId}/{productId}")
+    public ResponseEntity<?> removeProductInCart(@PathVariable Long userId, @PathVariable Long productId){
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(cartService.removeProductInCart(userId, productId));
+    }
 
 }

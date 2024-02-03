@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
     public boolean deleteProduct(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isPresent()) {
-            categoryRepository.deleteById(id);
+            productRepository.deleteById(id);
             return true;
         }
         return false;
@@ -87,5 +87,11 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
 
+    }
+
+    @Override
+    public List<ProductDto> getAllProductByCategoryId(Long categoryId) {
+        List<Product> products = productRepository.findAllByCategoryId(categoryId);
+        return products.stream().map(Product::getDto ).collect(Collectors.toList());
     }
 }

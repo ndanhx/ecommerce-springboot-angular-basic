@@ -49,10 +49,17 @@ export class DashboardComponent implements OnInit {
   }
 
   addToCart(productId: any) {
-    this.customerService.addToCart(productId).subscribe((res) => {
-      this.snackbar.open('Product added to cart Successfully', 'Close', {
-        duration: 5000,
-      });
-    });
+    this.customerService.addToCart(productId).subscribe(
+      (res) => {
+        this.snackbar.open('Product added to cart Successfully', 'Close', {
+          duration: 5000,
+        });
+      },
+      (error) => {
+        this.snackbar.open('Product added to cart Failed', 'Close', {
+          duration: 5000,
+        });
+      }
+    );
   }
 }

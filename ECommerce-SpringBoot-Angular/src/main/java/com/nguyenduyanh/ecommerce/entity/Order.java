@@ -49,8 +49,9 @@ public class Order {
     @JoinColumn(name = "coupon_id", referencedColumnName = "id")
     private Coupon coupon;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
     private List<CartItems> cartItems;
+
 
     public OrderDto getOrderDto() {
         OrderDto orderDto = new OrderDto();

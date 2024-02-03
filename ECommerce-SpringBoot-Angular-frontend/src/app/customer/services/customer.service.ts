@@ -120,6 +120,16 @@ export class CustomerService {
     );
   }
 
+  removeProductInCart(productId: any): Observable<any> {
+    const userId = UserStorageService.getUserId();
+    return this.http.delete(
+      BASIC_URL + `api/customer/cart/${userId}/${productId}`,
+      {
+        headers: this.createAuthorizationHeader(),
+      }
+    );
+  }
+
   //END CART
 
   //Review

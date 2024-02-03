@@ -19,4 +19,8 @@ public interface ProductService {
     ProductDto getProductById(Long productId);
 
     ProductDto updateProduct(Long productId, ProductDto productDto) throws IOException;
+
+    List<ProductDto> getAllProductByCategoryId(Long categoryId);
+
+
 }

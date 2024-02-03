@@ -43,7 +43,7 @@ public class AdminProductController {
         if (deleted) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/product/{productId}")
@@ -54,6 +54,14 @@ public class AdminProductController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/products/category/{categoryId}")
+    public ResponseEntity<List<ProductDto>> getAllProductsByName(@PathVariable Long categoryId) {
+        List<ProductDto> productDtos = productService.getAllProductByCategoryId(categoryId);
+        if (productDtos == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(productDtos);
     }
 
     @PutMapping("/update-product/{productId}")
