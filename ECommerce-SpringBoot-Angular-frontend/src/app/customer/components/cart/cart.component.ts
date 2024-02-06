@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CustomerService } from '../../services/customer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
+import { window } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -28,7 +29,7 @@ export class CartComponent implements OnInit {
     this.cartItems = [];
     this.customerService.getCartByUserId().subscribe((res) => {
       this.order = res;
-      console.log(res);
+
       res.cartItems.forEach((element) => {
         element.processedImg = 'data:image/jpeg;base64,' + element.returnedImg;
         this.cartItems.push(element);

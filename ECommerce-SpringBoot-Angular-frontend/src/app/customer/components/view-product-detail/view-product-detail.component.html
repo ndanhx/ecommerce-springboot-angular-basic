@@ -16,47 +16,69 @@
         </div>
         <div class="item"><b>Description:</b> {{ product.description }}</div>
         <div class="item"><b>Category:</b> {{ product.categoryName }}</div>
-        <div (click)="addProductToWishList()">
-          <mat-icon>favorite_border</mat-icon>
+        <div class="action" style="display: flex; direction: rtl">
+          <div
+            *ngIf="isWishList"
+            style="margin-right: 50px; color: red"
+            (click)="deleteWishList(wishList.id)"
+          >
+            <mat-icon>favorite</mat-icon>
+          </div>
+
+          <div
+            mat-mini-fab
+            disabled
+            *ngIf="!isWishList"
+            style="margin-right: 50px"
+            (click)="addProductToWishList()"
+          >
+            <mat-icon>favorite_border</mat-icon>
+          </div>
+
+          <div
+            style="margin-right: 50px; color: rgb(6, 172, 6)"
+            (click)="addToCart()"
+          >
+            <mat-icon>shopping_cart</mat-icon>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="cart-containner">
-  <h3>Frequently Asked Questions</h3>
-  <div class="cart-item">
-    <ul>
-      <li *ngFor="let faq of FAQs">
-        <div class="item">{{ faq.question }} - {{ faq.answer }}</div>
-      </li>
-    </ul>
+  <div class="cart-containner">
+    <h3>Frequently Asked Questions</h3>
+    <div class="cart-item">
+      <ul>
+        <li *ngFor="let faq of FAQs">
+          <div class="item">{{ faq.question }} - {{ faq.answer }}</div>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
 
-<div class="cart-containner">
-  <h3>Customer Reviews</h3>
-  <div class="cart-item">
-    <div *ngFor="let review of reviews" class="review-item">
-      <div class="user-info">
-        <img
-          class="img-review"
-          src="
-            https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/182592966_910535429860389_1447628575603143822_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeHnPQ6nFgW21KhaJXOONLLXQMt_SptBDxdAy39Km0EPF4SX6CGCFUvg34MCvzKy68o2D90cy6VnnURaUkWO4nGO&_nc_ohc=SOEVCG4UwS0AX-dLdSp&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfC8Dj72Z1J1xn-op3GXn6raP18d3yKcH_KHEoztRsTzcA&oe=659E9C5B
+  <div class="cart-containner">
+    <h3>Customer Reviews</h3>
+    <div class="cart-item">
+      <div *ngFor="let review of reviews" class="review-item">
+        <div class="user-info">
+          <img
+            class="img-review"
+            src="
           "
-          alt="User Avatar"
-        />
-        <b>{{ review.username }}</b>
-      </div>
+            alt="User Avatar"
+          />
+          <b>{{ review.username }}</b>
+        </div>
 
-      <div class="rating">
-        <span *ngFor="let _ of getStars(review.rating)">
-          <mat-icon>star</mat-icon>
-        </span>
+        <div class="rating">
+          <span *ngFor="let _ of getStars(review.rating)">
+            <mat-icon>star</mat-icon>
+          </span>
+        </div>
+        <img class="img-review" [src]="review.processedImg" alt="User Avatar" />
+        <p>{{ review.description }}</p>
       </div>
-      <img class="img-review" [src]="review.processedImg" alt="User Avatar" />
-      <p>{{ review.description }}</p>
     </div>
   </div>
 </div>

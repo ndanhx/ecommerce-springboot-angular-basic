@@ -43,7 +43,7 @@ public class AdminProductController {
         if (deleted) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/product/{productId}")

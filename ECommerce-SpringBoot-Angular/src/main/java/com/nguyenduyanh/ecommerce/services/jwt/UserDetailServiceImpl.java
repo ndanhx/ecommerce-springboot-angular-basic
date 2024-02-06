@@ -4,6 +4,8 @@ import com.nguyenduyanh.ecommerce.entity.User;
 import com.nguyenduyanh.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,4 +27,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (optionalUser.isEmpty()) throw new UsernameNotFoundException("Username not found",null);
         return new  org.springframework.security.core.userdetails.User(optionalUser.get().getEmail(), optionalUser.get().getPassword(), new ArrayList<>());
     }
+
+
 }

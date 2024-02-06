@@ -153,4 +153,24 @@ export class CustomerService {
       headers: this.createAuthorizationHeader(),
     });
   }
+
+  checkProductWishListInUser(productId: any): Observable<any> {
+    const userId = UserStorageService.getUserId();
+    return this.http.get(
+      BASIC_URL + `api/customer/wish-list/${userId}/${productId}`,
+      {
+        headers: this.createAuthorizationHeader(),
+      }
+    );
+  }
+
+  deleteWishList(wishListId: any): Observable<any> {
+    const userId = UserStorageService.getUserId();
+    return this.http.delete(
+      BASIC_URL + `api/customer/wish-list/${userId}/${wishListId}`,
+      {
+        headers: this.createAuthorizationHeader(),
+      }
+    );
+  }
 }

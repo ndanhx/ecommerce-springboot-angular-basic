@@ -21,6 +21,8 @@ export class ReviewOrderedProductComponent implements OnInit {
   ) {}
 
   productId: string = this.activatedRoute.snapshot.params['productId'];
+  orderId: string = this.activatedRoute.snapshot.params['orderId'];
+
   reviewForm: FormGroup;
   selectedFile: File | null;
   imagePreview: string | ArrayBuffer | null;

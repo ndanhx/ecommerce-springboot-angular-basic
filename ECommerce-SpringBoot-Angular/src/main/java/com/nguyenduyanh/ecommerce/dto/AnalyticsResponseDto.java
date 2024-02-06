@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AnalyticsResponse {
+public class AnalyticsResponseDto {
     private Long placed;
 
     private Long shipped;

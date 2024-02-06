@@ -1,6 +1,6 @@
 package com.nguyenduyanh.ecommerce.services.auth;
 
-import com.nguyenduyanh.ecommerce.dto.SignupRequest;
+import com.nguyenduyanh.ecommerce.dto.SignupRequestDtoDto;
 import com.nguyenduyanh.ecommerce.dto.UserDto;
 import com.nguyenduyanh.ecommerce.emuns.OrderStatus;
 import com.nguyenduyanh.ecommerce.emuns.UserRole;
@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService{
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserDto createUser(SignupRequest signupRequest){
+    public UserDto createUser(SignupRequestDtoDto signupRequest){
         User user = new User();
         user.setEmail(signupRequest.getEmail());
         user.setName(signupRequest.getName());

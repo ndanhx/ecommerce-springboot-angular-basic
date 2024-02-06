@@ -20,12 +20,16 @@ export class ViewProductDetailComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getProductDetailById();
+    this.checkProductWishList();
   }
 
   productId: any = this.activatedRoute.snapshot.params['productId'];
   product: any;
   FAQs: any[] = [];
   reviews: any[] = [];
+  isWishList: any;
+  wishList: any;
+
   getProductDetailById() {
     this.customerService
       .getProductDetailById(this.productId)
@@ -57,7 +61,8 @@ export class ViewProductDetailComponent implements OnInit {
         this.snackbar.open('Added Wish List Successfully', 'Close', {
           duration: 5000,
         });
-        this.router.navigateByUrl('customer/orders');
+        this.isWishList = true;
+        this.checkProductWishList();
       } else {
         this.snackbar.open('Added Wish List Failed', 'Close', {
           duration: 5000,
@@ -65,5 +70,54 @@ export class ViewProductDetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  addToCart() {
+    this.customerService.addToCart(this.productId).subscribe(
+      (res) => {
+        this.snackbar.open('Product added to cart Successfully', 'Close', {
+          duration: 5000,
+        });
+      },
+      (error) => {
+        this.snackbar.open('Product added to cart Failed', 'Close', {
+          duration: 5000,
+        });
+      }
+    );
+  }
+
+  checkProductWishList() {
+    this.customerService
+      .checkProductWishListInUser(this.productId)
+      .subscribe((res) => {
+        if (res.productId != null) {
+          this.isWishList = true;
+          this.wishList = res;
+        } else {
+          this.isWishList = false;
+        }
+      });
+  }
+
+  deleteWishList(wishListId: any) {
+    this.customerService.deleteWishList(wishListId).subscribe(
+      (res) => {
+        this.snackbar.open(
+          'Removed Product In WishList Successfully ',
+          'Close',
+          {
+            duration: 5000,
+          }
+        );
+        this.isWishList = false;
+      },
+      (error) => {
+        this.snackbar.open('Removed Product In WishList Failed', 'Close', {
+          duration: 5000,
+        });
+        this.isWishList = true;
+      }
+    );
   }
 }

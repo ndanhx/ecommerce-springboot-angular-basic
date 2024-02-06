@@ -29,6 +29,10 @@ public class WishListServiceImpl implements WishListService {
         Optional<User> optionalUser = userRepository.findById(wishListDto.getUserId());
 
         if (optionalUser.isPresent() && optionalProduct.isPresent()) {
+            Optional<WishList> optionalWishListByProductAndUser = wishListRepository.findWishListByProductIdAndUserId(optionalProduct.get().getId(), optionalUser.get().getId());
+            if (optionalWishListByProductAndUser.isPresent() ) {
+                return optionalWishListByProductAndUser.get().getWishListDto();
+            }
             WishList wishList = new WishList();
             wishList.setProduct(optionalProduct.get());
             wishList.setUser(optionalUser.get());
@@ -40,5 +44,32 @@ public class WishListServiceImpl implements WishListService {
     @Override
     public List<WishListDto> findAllWishListByUserId(Long userId) {
         return wishListRepository.findAllByUserId(userId).stream().map(WishList::getWishListDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public WishListDto checkProductWishListInUser(Long userId, Long productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent() && optionalProduct.isPresent()) {
+            Optional<WishList> optionalWishList = wishListRepository.findWishListByProductIdAndUserId(
+                    optionalProduct.get().getId(), optionalUser.get().getId());
+            if (optionalWishList.isPresent()) {
+                return optionalWishList.get().getWishListDto();
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    public boolean deleteWishList(Long userId,Long wishListId) {
+        Optional<WishList> optionalWishList = wishListRepository.findById(wishListId);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalWishList.isPresent() && optionalUser.isPresent()) {
+            wishListRepository.delete(optionalWishList.get());
+            return true;
+        }
+        return false;
     }
 }

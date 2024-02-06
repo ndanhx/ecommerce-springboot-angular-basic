@@ -17,19 +17,16 @@ public class WishList {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
 
     public WishListDto getWishListDto() {
         WishListDto wishListDto = new WishListDto();
-        wishListDto.setId(id);
-
+        wishListDto.setId(this.id);
         wishListDto.setProductId(product.getId());
         wishListDto.setReturnedImg(product.getImg());
         wishListDto.setProductName(product.getName());

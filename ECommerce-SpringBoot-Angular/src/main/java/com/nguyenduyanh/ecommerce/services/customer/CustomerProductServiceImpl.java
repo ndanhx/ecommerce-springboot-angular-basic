@@ -63,7 +63,7 @@ public class CustomerProductServiceImpl implements CustomerProductService{
             productDetailDto.setReviewDtoList(reviewList.stream()
                     .map(Review::getReviewDto)
                     .collect(Collectors.toList()));
-            
+
             return productDetailDto;
         }
         return null;

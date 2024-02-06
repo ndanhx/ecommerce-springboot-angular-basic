@@ -20,9 +20,18 @@
           </div>
           <div><b>Description:</b> {{ product.productDescription }}</div>
         </div>
-        <button mat-icon-button>
-          <mat-icon style="color: red" class="icon">shopping_cart</mat-icon>
-        </button>
+      </div>
+      <div class="product-info" style="text-align: center">
+        <div class="product-detail">
+          <button mat-icon-button (click)="addToCart(product.productId)">
+            <mat-icon style="color: rgb(6, 172, 6)" class="icon"
+              >shopping_cart</mat-icon
+            >
+          </button>
+          <button mat-icon-button (click)="deleteWishList(product.id)">
+            <mat-icon style="color: red" class="icon">delete</mat-icon>
+          </button>
+        </div>
       </div>
     </div>
   </ng-container>

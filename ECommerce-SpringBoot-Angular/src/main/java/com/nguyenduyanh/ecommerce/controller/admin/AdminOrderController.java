@@ -1,11 +1,7 @@
 package com.nguyenduyanh.ecommerce.controller.admin;
 
-import com.nguyenduyanh.ecommerce.dto.AnalyticsResponse;
+import com.nguyenduyanh.ecommerce.dto.AnalyticsResponseDto;
 import com.nguyenduyanh.ecommerce.dto.OrderDto;
-import com.nguyenduyanh.ecommerce.entity.Coupon;
-import com.nguyenduyanh.ecommerce.entity.Order;
-import com.nguyenduyanh.ecommerce.exeptions.ValidationException;
-import com.nguyenduyanh.ecommerce.services.admin.coupon.CouponService;
 import com.nguyenduyanh.ecommerce.services.admin.order.AdminOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,7 +34,7 @@ public class AdminOrderController {
 
 
     @GetMapping("/order/analytics")
-    public ResponseEntity<AnalyticsResponse> getAnalytics(){
+    public ResponseEntity<AnalyticsResponseDto> getAnalytics(){
         return  ResponseEntity.ok(orderService.calculatorAnalytics());
     }
 

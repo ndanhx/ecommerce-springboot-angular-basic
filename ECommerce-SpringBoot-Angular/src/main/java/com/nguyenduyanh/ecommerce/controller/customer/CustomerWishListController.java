@@ -33,4 +33,18 @@ public class CustomerWishListController {
         return ResponseEntity.ok(wishListService.findAllWishListByUserId(userId));
     }
 
+    @GetMapping("/wish-list/{userId}/{productId}")
+    public ResponseEntity<WishListDto> checkProductWishListInUser(@PathVariable Long userId, @PathVariable Long productId){
+        return ResponseEntity.ok(wishListService.checkProductWishListInUser(userId,productId));
+    }
+
+    @DeleteMapping("/wish-list/{userId}/{wishListId}")
+    public ResponseEntity<Void> deleteWishList(@PathVariable Long wishListId,  @PathVariable Long userId) {
+        boolean deleted = wishListService.deleteWishList(userId,wishListId);
+        if (deleted) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }

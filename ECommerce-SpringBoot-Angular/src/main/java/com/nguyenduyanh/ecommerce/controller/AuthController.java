@@ -2,8 +2,8 @@ package com.nguyenduyanh.ecommerce.controller;
 
 
 import com.google.gson.JsonObject;
-import com.nguyenduyanh.ecommerce.dto.AuthenticationReqest;
-import com.nguyenduyanh.ecommerce.dto.SignupRequest;
+import com.nguyenduyanh.ecommerce.dto.AuthenticationReqestDto;
+import com.nguyenduyanh.ecommerce.dto.SignupRequestDtoDto;
 import com.nguyenduyanh.ecommerce.dto.UserDto;
 import com.nguyenduyanh.ecommerce.entity.User;
 import com.nguyenduyanh.ecommerce.repository.UserRepository;
@@ -38,13 +38,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/authenticate")
-    public void createAuthenticationToken(@RequestBody AuthenticationReqest authenticationReqest, HttpServletResponse response) throws IOException {
+    public void createAuthenticationToken(@RequestBody AuthenticationReqestDto authenticationReqestDto, HttpServletResponse response) throws IOException {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationReqest.getUsername(), authenticationReqest.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationReqestDto.getUsername(), authenticationReqestDto.getPassword()));
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Incorrect username or password");
         }
-        final UserDetails userDetails = userDetailsService.loadUserByUsername((authenticationReqest.getUsername()));
+        final UserDetails userDetails = userDetailsService.loadUserByUsername((authenticationReqestDto.getUsername()));
         Optional<User> optionalUser = userRepository.findFirstByEmail(userDetails.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails.getUsername());
         if (optionalUser.isPresent()) {
@@ -61,11 +61,11 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> signupUser(@RequestBody SignupRequest signupRequest) {
-        if (authService.hasUserWithEmail(signupRequest.getEmail())) {
+    public ResponseEntity<?> signupUser(@RequestBody SignupRequestDtoDto signupRequestDto) {
+        if (authService.hasUserWithEmail(signupRequestDto.getEmail())) {
             return new ResponseEntity<>("User already exists", HttpStatus.NOT_ACCEPTABLE);
         }
-        UserDto userDto = authService.createUser(signupRequest);
+        UserDto userDto = authService.createUser(signupRequestDto);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 }

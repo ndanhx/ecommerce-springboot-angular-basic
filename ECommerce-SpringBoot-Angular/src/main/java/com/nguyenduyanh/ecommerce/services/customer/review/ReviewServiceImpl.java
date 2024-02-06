@@ -1,5 +1,6 @@
 package com.nguyenduyanh.ecommerce.services.customer.review;
 
+import com.nguyenduyanh.ecommerce.dto.CartItemsDto;
 import com.nguyenduyanh.ecommerce.dto.OrderedProductsResponseDto;
 import com.nguyenduyanh.ecommerce.dto.ProductDto;
 import com.nguyenduyanh.ecommerce.dto.ReviewDto;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,9 +43,9 @@ public class ReviewServiceImpl implements ReviewService{
                 productDto.setPrice(cartItems.getPrice());
                 productDto.setQuantity(cartItems.getQuantity());
                 productDto.setByteImg(cartItems.getProduct().getImg());
+
+
                 productDtoList.add(productDto);
-
-
             }
 
             orderedProductsResponseDto.setProductDtoList(productDtoList);
@@ -55,15 +57,13 @@ public class ReviewServiceImpl implements ReviewService{
     public ReviewDto giveReview(ReviewDto reviewDto) throws IOException {
         Optional<Product> optionalProduct = productRepository.findById(reviewDto.getProductId());
         Optional<User> optionalUser = userRepository.findById(reviewDto.getUserId());
-
-        if (optionalUser.isPresent() && optionalProduct.isPresent()) {
+        if (optionalUser.isPresent() && optionalProduct.isPresent() ) {
             Review review = new Review();
             review.setRating(reviewDto.getRating());
             review.setDescription(reviewDto.getDescription());
             review.setUser(optionalUser.get());
             review.setProduct(optionalProduct.get());
             review.setImg(reviewDto.getImg().getBytes());
-
             return reviewRepository.save(review).getReviewDto();
 
         }

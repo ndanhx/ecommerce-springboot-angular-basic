@@ -1,7 +1,7 @@
 package com.nguyenduyanh.ecommerce.services.admin.order;
 
 
-import com.nguyenduyanh.ecommerce.dto.AnalyticsResponse;
+import com.nguyenduyanh.ecommerce.dto.AnalyticsResponseDto;
 import com.nguyenduyanh.ecommerce.dto.OrderDto;
 import com.nguyenduyanh.ecommerce.emuns.OrderStatus;
 import com.nguyenduyanh.ecommerce.entity.Order;
@@ -44,7 +44,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
     }
 
     @Override
-    public AnalyticsResponse calculatorAnalytics() {
+    public AnalyticsResponseDto calculatorAnalytics() {
         LocalDate currentDate = LocalDate.now();
         LocalDate previousMonthDate = currentDate.minusMonths(1);
         Long currentMonthOrders = getTotalOrderForMonth(currentDate.getMonthValue(), currentDate.getYear());
@@ -56,7 +56,7 @@ public class AdminOrderServiceImpl implements AdminOrderService {
         Long placed = orderRepository.countByOrderStatus(OrderStatus.Placed);
         Long shipped = orderRepository.countByOrderStatus(OrderStatus.Shipped);
         Long delivered = orderRepository.countByOrderStatus(OrderStatus.Delivered);
-        return new AnalyticsResponse(placed, shipped, delivered, currentMonthOrders, previousMonthOrders,
+        return new AnalyticsResponseDto(placed, shipped, delivered, currentMonthOrders, previousMonthOrders,
                 currentMonthEarnings, previousMonthEarnings);
     }
 

@@ -28,8 +28,39 @@ export class ViewWishListComponent implements OnInit {
     this.customerService.getAllWishListByUserId().subscribe((res) => {
       res.forEach((element) => {
         element.processedImg = 'data:image/jpeg;base64,' + element.returnedImg;
-        this.products.push(element);
       });
+      this.products = res;
     });
+  }
+
+  deleteWishList(wishListId: any) {
+    this.customerService.deleteWishList(wishListId).subscribe(
+      (res) => {
+        this.snackbar.open('Removed Product Successfully ', 'Close', {
+          duration: 5000,
+        });
+        this.getAllWishListByUserId();
+      },
+      (error) => {
+        this.snackbar.open(error.error, 'Close', {
+          duration: 5000,
+        });
+      }
+    );
+  }
+
+  addToCart(productId: any) {
+    this.customerService.addToCart(productId).subscribe(
+      (res) => {
+        this.snackbar.open('Product added to cart Successfully', 'Close', {
+          duration: 5000,
+        });
+      },
+      (error) => {
+        this.snackbar.open('Product added to cart Failed', 'Close', {
+          duration: 5000,
+        });
+      }
+    );
   }
 }

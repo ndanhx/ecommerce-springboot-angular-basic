@@ -49,10 +49,14 @@
         <mat-form-field>
           <mat-label>Code</mat-label>
           <input type="text" matInput formControlName="code" />
-          <mat-error *ngIf="couponForm.get('code').hasError('required')">
-            This input is required
-          </mat-error>
-          <button mat-raised-button color="primary">Apply Coupon</button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="couponForm.invalid"
+          >
+            Apply Coupon
+          </button>
         </mat-form-field>
       </form>
     </div>
