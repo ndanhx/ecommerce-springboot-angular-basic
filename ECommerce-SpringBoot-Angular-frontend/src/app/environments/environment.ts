@@ -1,4 +1,4 @@
 export const environmentLocal = {
   production: false,
-  apiUrl: 'http://localhost:8080/',
+  apiUrl: 'https://duyanh-angular-ecommerce.up.railway.app/',
 };
